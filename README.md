@@ -86,20 +86,21 @@ Output:
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 lamp-stack         latest              e9ffedc8c286        4 minutes ago       258MB
 
-Run the newly built image. The -p 80:80 option maps the exposed port 80 on the container to port 80 on the host system. For more information about docker run, go to the Docker run reference.
+Run the newly built image:
 
 docker run -a stdin -a stdout -i -t lamp-stack /bin/bash
 
 
 Open a browser and point to the server that is running Docker and hosting your container.
-If you are running Docker locally, point your browser to http://localhost/.
+If you are running Docker locally, point your browser to http://localhost:8080/.
 
 If you are using docker-machine on a Windows or Mac computer, find the IP address of the VirtualBox VM that is hosting Docker with the docker-machine ip command, substituting machine-name with the name of the docker machine you are using.
 
 docker-machine ip machine-name
+Example - http://192.168.64.2:8080/
 You should see a web page.
 
-Stop the Docker container by typing exit.
+Stop the Docker container by typing: exit
 
 (Optional) Push your image to Amazon Elastic Container Registry
 Amazon ECR is a managed AWS Docker registry service. Customers can use the familiar Docker CLI to push, pull, and manage images. For Amazon ECR product details, featured customer case studies, and FAQs, see the Amazon Elastic Container Registry product detail pages.
