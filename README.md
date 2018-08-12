@@ -11,7 +11,7 @@ The business will want to provide fault tolorance leveraging on-premise servers 
 Docker
 Amazon AWS Elastic Container Service
 
-Create a Docker Image
+# Create a Docker Image
 Amazon ECS task definitions use Docker images to launch containers on the container instances in your clusters. In this section, you create a Docker image of a simple web application, and test it on your local system or EC2 instance, and then push the image to a container registry (such as Amazon ECR or Docker Hub) so you can use it in an ECS task definition.
 
 Create a file called Dockerfile. A Dockerfile is a manifest that describes the base image to use for your Docker image and what you want installed and running on it. For more information about Dockerfiles, go to the Dockerfile Reference.
@@ -23,7 +23,7 @@ Edit the Dockerfile you just created and add the following content.
 
 FROM ubuntu:16.04
 MAINTAINER Peter Simkins <psimkins@gmail.com>
-LABEL Description="Cutting-edge LAMP stack, based on Ubuntu 16.04 LTS. Includes .htaccess support and popular PHP7 features, including composer and mail() function." \
+LABEL Description="Cutting-edge LAMP stack, based on Ubuntu 16.04 LTS. Includes .htaccess support and popular PHP7 features" \
 	License="Apache License 2.0" \
 	Version="1.0"
 
@@ -67,15 +67,12 @@ RUN apt-get install -y \
 	php7.0-zip
 RUN apt-get install apache2 libapache2-mod-php7.0 -y
 RUN apt-get install mariadb-common mariadb-server mariadb-client -y
-RUN apt-get install postfix -y
-RUN apt-get install git nodejs npm composer nano tree vim curl ftp -y
-RUN npm install -g bower grunt-cli gulp
 
 EXPOSE 80
 EXPOSE 3306
 
----
 
+---
 This Dockerfile uses the Ubuntu 16.04 image. The RUN instructions update the package caches, install some software packages for the web server. The EXPOSE instruction exposes port 80 on the container, and the CMD instruction starts the web server.
 
 Build the Docker image from your Dockerfile.
@@ -88,16 +85,13 @@ Output:
 
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 lamp-stack         latest              e9ffedc8c286        4 minutes ago       258MB
+
 Run the newly built image. The -p 80:80 option maps the exposed port 80 on the container to port 80 on the host system. For more information about docker run, go to the Docker run reference.
 
-docker run -p 80:80 lamp-stack
-Note
+docker run -a stdin -a stdout -i -t lamp-stack /bin/bash
 
-Output from the Apache web server is displayed in the terminal window. You can ignore the "Could not reliably determine the server's fully qualified domain name" message.
 
 Open a browser and point to the server that is running Docker and hosting your container.
-
-
 If you are running Docker locally, point your browser to http://localhost/.
 
 If you are using docker-machine on a Windows or Mac computer, find the IP address of the VirtualBox VM that is hosting Docker with the docker-machine ip command, substituting machine-name with the name of the docker machine you are using.
@@ -105,7 +99,7 @@ If you are using docker-machine on a Windows or Mac computer, find the IP addres
 docker-machine ip machine-name
 You should see a web page.
 
-Stop the Docker container by typing Ctrl + c.
+Stop the Docker container by typing exit.
 
 (Optional) Push your image to Amazon Elastic Container Registry
 Amazon ECR is a managed AWS Docker registry service. Customers can use the familiar Docker CLI to push, pull, and manage images. For Amazon ECR product details, featured customer case studies, and FAQs, see the Amazon Elastic Container Registry product detail pages.
